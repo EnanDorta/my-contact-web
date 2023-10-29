@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useState } from 'react'
-import { Container, InputSearchContainer, Header, ListHeader, Card } from './styles'
+import { useEffect, useMemo, useState, useCallback } from 'react'
+import { Container, InputSearchContainer, Header, ListHeader, Card, ErrorContainer } from './styles'
 import Loader from '../../components/Loader/'
+import { ButtonForm } from '../../components/Button'
 
 import { Link } from 'react-router-dom'
 import formatPhone from '../../utils/formatPhone'
@@ -8,6 +9,7 @@ import formatPhone from '../../utils/formatPhone'
 import arrow from '../../assets/icons/arrow.svg'
 import edit from '../../assets/icons/edit.svg'
 import trash from '../../assets/icons/trash.svg'
+import sad from '../../assets/icons/sad.svg'
 import ContactsService from '../../service/ContactsService'
 
 interface Contacts {
@@ -23,25 +25,26 @@ const Home = () => {
   const [orderBy, setOrderBy] = useState('asc')
   const [searchTerm, setSearchTerm] = useState('')
   const [isLoading, setIsLoading] = useState(true)
+  const [hasError, setHasError] = useState(false)
+
+  const loadContacts = useCallback(async () => {
+    try {
+      setIsLoading(true)
+      const listContacts = await ContactsService.listContacts(orderBy)
+
+      setContacts(listContacts)
+      setHasError(false)
+    }
+    catch {
+      setHasError(true)
+    } finally {
+      setIsLoading(false)
+    }
+  }, [orderBy])
 
   useEffect(() => {
-    async function loadContacts() {
-      try {
-        setIsLoading(true)
-        const listContacts = await ContactsService.listContacts(orderBy)
-
-        setContacts(listContacts)
-
-      }
-      catch (err) {
-        console.log(err)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
     loadContacts()
-  }, [orderBy])
+  }, [loadContacts])
 
   const filteredContacts = useMemo(() => (
     contacts.filter((contact): any => (
@@ -68,15 +71,41 @@ const Home = () => {
           onChange={handleChangeSearchTerm}
         />
       </InputSearchContainer>
-      <Header>
-        <strong>
-          {filteredContacts.length}
-          {filteredContacts.length === 1 ? ' Contato' : ' Contatos'}
-        </strong>
+      <Header hasError={hasError}>
+        {
+          !hasError && (
+            <strong>
+              {filteredContacts.length}
+              {filteredContacts.length === 1 ? ' Contato' : ' Contatos'}
+            </strong>
+          )
+        }
         <Link to="/new">Novo contato</Link>
       </Header>
 
       {
+        hasError && (
+          <ErrorContainer>
+            <img src={sad} alt="Rosto triste" />
+            <div className="details">
+              <strong>
+                Ocorreu um erro ao obter os seus contatos!
+              </strong>
+              <ButtonForm
+                type="button"
+                danger={false}
+                onClick={loadContacts}
+              >
+                Tentar novamente
+              </ButtonForm>
+            </div>
+          </ErrorContainer>
+        )
+      }
+
+      { !hasError && (
+        <>
+          {
         filteredContacts.length > 0 && (
           <ListHeader orderBy={orderBy}>
             <header>
@@ -113,6 +142,8 @@ const Home = () => {
           )
         })
       }
+        </>
+     )}
 
     </Container>
   )
