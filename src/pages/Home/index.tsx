@@ -7,6 +7,7 @@ import {
   Card,
   ErrorContainer,
   EmptyListContainer,
+  SearchNotFoundContainer,
 } from "./styles";
 import Loader from "../../components/Loader/";
 import { ButtonForm } from "../../components/Button";
@@ -19,6 +20,8 @@ import edit from "../../assets/icons/edit.svg";
 import trash from "../../assets/icons/trash.svg";
 import sad from "../../assets/icons/sad.svg";
 import emptyBox from "../../assets/icons/empty-box.svg";
+import magnifierQuestion from "../../assets/icons/magnifier-question.svg";
+
 import ContactsService from "../../service/ContactsService";
 
 interface Contacts {
@@ -123,6 +126,16 @@ const Home = () => {
                 primeiro!
               </p>
             </EmptyListContainer>
+          )}
+
+          {contacts.length > 0 && filteredContacts.length < 1 && (
+            <SearchNotFoundContainer>
+              <img src={magnifierQuestion} alt="Lupa vazia" />
+              <p>
+                Nenhum resultado foi encontrado para{" "}
+                <strong>{searchTerm}</strong>
+              </p>
+            </SearchNotFoundContainer>
           )}
 
           {filteredContacts.length > 0 && (
