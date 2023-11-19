@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
 interface HeaderProps {
-  hasError: boolean;
+  justifyContent: string;
 }
 
 export const Container = styled.div`
   margin-top: 39px;
-`
+`;
 
 export const InputSearchContainer = styled.div`
   width: 100%;
@@ -23,13 +23,13 @@ export const InputSearchContainer = styled.div`
   }
 
   &::placeholder {
-    color: #BCBCBC;
+    color: #bcbcbc;
   }
-`
+`;
 
 export const Header = styled.header<HeaderProps>`
   display: flex;
-  justify-content: ${({ hasError }) => ( hasError ? 'flex-end' : 'space-between')};
+  justify-content: ${({ justifyContent }) => justifyContent};
   align-items: center;
   margin-top: 32px;
   border-bottom: 2px solid ${({ theme }) => theme.colors.gray[100]};
@@ -53,7 +53,7 @@ export const Header = styled.header<HeaderProps>`
       color: #fff;
     }
   }
-`
+`;
 
 interface ListHeaderProps {
   orderBy?: string;
@@ -74,15 +74,16 @@ export const ListHeader = styled.div<ListHeaderProps>`
       background: transparent;
       border: none;
       display: flex;
-      align-items: center
+      align-items: center;
     }
 
     img {
-      transform: ${({ orderBy }): any => orderBy === 'asc' ? 'rotate(180deg)' : 'rotate(0deg)'};
+      transform: ${({ orderBy }): any =>
+        orderBy === "asc" ? "rotate(180deg)" : "rotate(0deg)"};
       transition: transform 0.2s ease-in;
     }
   }
-`
+`;
 
 export const Card = styled.div`
   background: #fff;
@@ -110,27 +111,27 @@ export const Card = styled.div`
     }
 
     span {
-        display: block !important;
-        font-size: 14px;
-        color: ${({ theme }) => theme.colors.gray[200]};
-      }
+      display: block !important;
+      font-size: 14px;
+      color: ${({ theme }) => theme.colors.gray[200]};
+    }
   }
 
   .actions {
-      display: flex;
-      align-items: center;
+    display: flex;
+    align-items: center;
 
-      button {
-        background: transparent;
-        border: none;
-        margin-left: 8px;
-      }
+    button {
+      background: transparent;
+      border: none;
+      margin-left: 8px;
     }
+  }
 
   & + & {
     margin-top: 16px;
   }
-`
+`;
 
 export const ErrorContainer = styled.div`
   margin-top: 16px;
@@ -147,4 +148,20 @@ export const ErrorContainer = styled.div`
       margin-bottom: 8px;
     }
   }
-`
+`;
+
+export const EmptyListContainer = styled.div`
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  p {
+    margin-top: 8px;
+    color: ${({ theme }) => theme.colors.gray[200]};
+
+    strong {
+      color: ${({ theme }) => theme.colors.primary.main};
+    }
+  }
+`;
