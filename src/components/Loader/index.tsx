@@ -1,23 +1,23 @@
-import { createPortal } from 'react-dom'
+import { createPortal } from "react-dom";
 
-import { Overlay } from './styles'
+import { Overlay } from "./styles";
+import Spinner from "../Spinner";
 
 interface LoaderProps {
-  isLoading?: boolean
+  isLoading?: boolean;
 }
 
 const Loader = ({ isLoading }: LoaderProps) => {
-
   if (!isLoading) {
-    return null
+    return null;
   }
 
   return createPortal(
     <Overlay>
-      <div className="loader"></div>
+      <Spinner size={90} />
     </Overlay>,
-    document.getElementById('loader-root')!,
-  )
-}
+    document.getElementById("loader-root")!
+  );
+};
 
-export default Loader
+export default Loader;

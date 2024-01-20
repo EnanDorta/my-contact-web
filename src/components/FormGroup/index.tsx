@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { Container } from "./styles";
+import Spinner from "../Spinner";
 
 interface FormGroupsProps {
   children: ReactNode;
@@ -12,7 +13,11 @@ const FormGroup = ({ children, isLoading, error }: FormGroupsProps) => {
     <Container>
       <div className="form-item">
         {children}
-        {isLoading && <div className="loader"></div>}
+        {isLoading && (
+          <div className="loader">
+            <Spinner size={18} />
+          </div>
+        )}
       </div>
 
       {error && <small>{error}</small>}
