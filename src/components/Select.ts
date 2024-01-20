@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const SelectForm = styled.select`
   width: 100%;
@@ -17,4 +17,8 @@ export const SelectForm = styled.select`
     border-color: ${({ theme }) => theme.colors.primary.main};
   }
 
-`
+  &[disabled] {
+    background-color: ${({ theme }) => theme.colors.gray[100]};
+    border-color: ${({ theme }) => theme.colors.gray[200]};
+  }
+`;
