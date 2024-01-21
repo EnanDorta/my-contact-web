@@ -4,6 +4,7 @@ import useErrors from "../../hooks/useError";
 import isEmailValid from "../../utils/isValidEmail";
 import formatPhone from "../../utils/formatPhone";
 import CategoriesService from "../../service/CategoriesService";
+import ContactsService from "../../service/ContactsService";
 
 import { Form, ButtonContainer } from "./style";
 
@@ -73,15 +74,19 @@ const ContactForm = ({ buttonLabel }: ContactFormProps) => {
     setPhone(formatPhone(event.target.value));
   }
 
-  function handleSubmit(event: FormEvent) {
+  async function handleSubmit(event: FormEvent) {
     event.preventDefault();
 
-    console.log({
-      name,
-      email,
-      phone,
-      category,
-    });
+    try {
+      await ContactsService.createContact({
+        name,
+        email,
+        phone,
+        category_id: category,
+      });
+    } catch (e) {
+      console.log(e);
+    }
   }
   return (
     <Form onSubmit={handleSubmit} noValidate>
