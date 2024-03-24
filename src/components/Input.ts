@@ -17,14 +17,19 @@ export const InputForm = styled.input<InputFormProps>`
   transition: border-color 0.2s ease-in;
   appearance: none;
 
-
   &:focus {
     border-color: ${({ theme }) => theme.colors.primary.main};
   }
 
+  ${({ theme, error }) =>
+    error &&
+    css`
+      color: ${theme.colors.danger.main};
+      border-color: ${theme.colors.danger.main} !important;
+    `}
 
-  ${({ theme, error }) => error && css`
-    color: ${theme.colors.danger.main};
-    border-color: ${theme.colors.danger.main} !important;
-  `}
-`
+  &[disabled] {
+    background-color: ${({ theme }) => theme.colors.gray[100]};
+    border-color: ${({ theme }) => theme.colors.gray[200]};
+  }
+`;

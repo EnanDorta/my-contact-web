@@ -1,7 +1,7 @@
-import ReactDom from 'react-dom'
-import { Overlay, Container, Footer } from './styles'
+import ReactDom from "react-dom";
+import { Overlay, Container, Footer } from "./styles";
 
-import { ButtonForm } from '../Button'
+import ButtonForm from "../Button";
 
 interface ModalProps {
   danger: boolean;
@@ -18,14 +18,12 @@ const Modal = ({ danger }: ModalProps) => {
           <button className="cancel-button" type="button">
             Cancelar
           </button>
-          <ButtonForm danger={danger}>
-            Deletar
-          </ButtonForm>
+          <ButtonForm danger={danger}>Deletar</ButtonForm>
         </Footer>
       </Container>
     </Overlay>,
-    document.getElementById('modal-root')!,
-  )
-}
+    document.getElementById("modal-root")!
+  );
+};
 
-export default Modal
+export default Modal;

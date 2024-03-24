@@ -11,7 +11,7 @@ import { Form, ButtonContainer } from "./style";
 import FormGroup from "../FormGroup";
 import { InputForm } from "../Input";
 import { SelectForm } from "../Select";
-import { ButtonForm } from "../Button";
+import ButtonForm from "../Button";
 
 interface ContactFormProps {
   buttonLabel: string;
@@ -28,6 +28,7 @@ const ContactForm = ({ buttonLabel }: ContactFormProps) => {
   const [category, setCategory] = useState("");
   const [categories, setCategories] = useState<Categories[]>([]);
   const [isLoadingCategories, setIsLoadingCategories] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { errors, setError, removeError, getErrorMessageByFieldName } =
     useErrors();
@@ -76,6 +77,7 @@ const ContactForm = ({ buttonLabel }: ContactFormProps) => {
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
+    setIsSubmitting(true);
 
     try {
       await ContactsService.createContact({
@@ -84,8 +86,10 @@ const ContactForm = ({ buttonLabel }: ContactFormProps) => {
         phone,
         category_id: category,
       });
+      setIsSubmitting(false);
     } catch (e) {
       console.log(e);
+      setIsSubmitting(false);
     }
   }
   return (
@@ -95,6 +99,7 @@ const ContactForm = ({ buttonLabel }: ContactFormProps) => {
           placeholder="Nome *"
           value={name}
           error={Boolean(getErrorMessageByFieldName("name"))}
+          disabled={isSubmitting}
           onChange={handleNameChange}
         />
       </FormGroup>
@@ -105,6 +110,7 @@ const ContactForm = ({ buttonLabel }: ContactFormProps) => {
           placeholder="E-mail"
           value={email}
           error={Boolean(getErrorMessageByFieldName("email"))}
+          disabled={isSubmitting}
           onChange={handleEmailChange}
         />
       </FormGroup>
@@ -113,8 +119,9 @@ const ContactForm = ({ buttonLabel }: ContactFormProps) => {
         <InputForm
           placeholder="Telefone"
           value={phone}
-          onChange={handlePhoneChange}
           maxLength={15}
+          disabled={isSubmitting}
+          onChange={handlePhoneChange}
         />
       </FormGroup>
 
@@ -122,7 +129,7 @@ const ContactForm = ({ buttonLabel }: ContactFormProps) => {
         <SelectForm
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          disabled={isLoadingCategories}
+          disabled={isLoadingCategories || isSubmitting}
         >
           <option value="">Sem categoria</option>
 
@@ -135,7 +142,12 @@ const ContactForm = ({ buttonLabel }: ContactFormProps) => {
       </FormGroup>
 
       <ButtonContainer>
-        <ButtonForm type="submit" disabled={!isValidForm} danger={false}>
+        <ButtonForm
+          type="submit"
+          isLoading={isSubmitting}
+          disabled={!isValidForm}
+          danger={false}
+        >
           {buttonLabel}
         </ButtonForm>
       </ButtonContainer>

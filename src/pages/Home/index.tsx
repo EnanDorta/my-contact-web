@@ -10,7 +10,7 @@ import {
   SearchNotFoundContainer,
 } from "./styles";
 import Loader from "../../components/Loader/";
-import { ButtonForm } from "../../components/Button";
+import ButtonForm from "../../components/Button";
 
 import { Link } from "react-router-dom";
 import formatPhone from "../../utils/formatPhone";
