@@ -9,7 +9,7 @@ interface ToastMessageProps {
 
 const ToastMessage = ({ text, type = "default" }: ToastMessageProps) => {
   return (
-    <Container>
+    <Container type={type}>
       {type === "success" && <img src={CheckCircle} alt="CheckX" />}
 
       {type === "danger" && <img src={Xcircle} alt="x" />}
