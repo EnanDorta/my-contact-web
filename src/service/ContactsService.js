@@ -14,6 +14,10 @@ class ContactsService {
       body: contact,
     });
   }
+
+  async deleteContact(contactId) {
+    return this.httpClient.delete(`/contacts/${contactId}`);
+  }
 }
 /* eslint-disable-next-line */
 export default new ContactsService();

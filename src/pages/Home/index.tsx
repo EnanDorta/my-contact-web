@@ -21,7 +21,6 @@ import trash from "../../assets/icons/trash.svg";
 import sad from "../../assets/icons/sad.svg";
 import emptyBox from "../../assets/icons/empty-box.svg";
 import magnifierQuestion from "../../assets/icons/magnifier-question.svg";
-
 import ContactsService from "../../service/ContactsService";
 
 interface Contacts {
@@ -71,6 +70,10 @@ const Home = () => {
 
   function handleChangeSearchTerm(event: any) {
     setSearchTerm(event.target.value);
+  }
+
+  async function hadleDeleteContact(id: string) {
+    await ContactsService.deleteContact(id);
   }
 
   return (
@@ -149,22 +152,22 @@ const Home = () => {
             </ListHeader>
           )}
 
-          {filteredContacts.map((contact) => {
+          {filteredContacts.map(({ id, name, category_name, phone, email }) => {
             return (
-              <Card key={contact.id}>
+              <Card key={id}>
                 <div className="info">
                   <div className="contact-name">
-                    <strong>{contact.name}</strong>
-                    <small>{contact.category_name}</small>
+                    <strong>{name}</strong>
+                    <small>{category_name}</small>
                   </div>
-                  <span>{contact.email}</span>
-                  <span>{formatPhone(contact.phone)}</span>
+                  <span>{email}</span>
+                  <span>{formatPhone(phone)}</span>
                 </div>
                 <div className="actions">
-                  <Link to={`/edit/${contact.id}`}>
+                  <Link to={`/edit/${id}`}>
                     <img src={edit} alt="Editar" />
                   </Link>
-                  <button>
+                  <button onClick={() => hadleDeleteContact(id)}>
                     <img src={trash} alt="Deletar" />
                   </button>
                 </div>

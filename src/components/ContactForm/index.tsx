@@ -79,18 +79,14 @@ const ContactForm = ({ buttonLabel }: ContactFormProps) => {
     event.preventDefault();
     setIsSubmitting(true);
 
-    try {
-      await ContactsService.createContact({
-        name,
-        email,
-        phone,
-        category_id: category,
-      });
-      setIsSubmitting(false);
-    } catch (e) {
-      console.log(e);
-      setIsSubmitting(false);
-    }
+    await ContactsService.createContact({
+      name,
+      email,
+      phone,
+      category_id: category,
+    });
+
+    setIsSubmitting(false);
   }
   return (
     <Form onSubmit={handleSubmit} noValidate>
