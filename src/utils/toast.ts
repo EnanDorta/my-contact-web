@@ -1,15 +1,12 @@
+import EventManager from "../lib/EventManager";
+
 interface ToastProps {
   type: "default" | "success" | "danger";
   text: string;
 }
 
-export function toast({ type, text }: ToastProps) {
-  const addEvent = new CustomEvent("addtoast", {
-    detail: {
-      type,
-      text,
-    },
-  });
+export const ToastEventManager = new EventManager();
 
-  document.dispatchEvent(addEvent);
+export function toast({ type, text }: ToastProps) {
+  ToastEventManager.emit("addtoast", { type, text });
 }

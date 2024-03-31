@@ -1,6 +1,5 @@
 import axios from 'axios'
 import delay from "../../utils/delay";
-import APIError from "../../errors/APIError";
 import { toast } from "../../utils/toast";
 
 class HttpClient {
@@ -55,7 +54,6 @@ class HttpClient {
         type: "danger"
       })
 
-      throw new APIError(error.message)
     }
   }
 }

@@ -73,7 +73,11 @@ const Home = () => {
   }
 
   async function hadleDeleteContact(id: string) {
+    const filteredContacts = contacts.filter((contact) => contact.id !== id);
+
     await ContactsService.deleteContact(id);
+
+    setContacts(filteredContacts);
   }
 
   return (

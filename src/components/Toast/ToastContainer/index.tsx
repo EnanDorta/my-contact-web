@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Container } from "./styles";
 import ToastMessage from "../ToastMessage";
+import { ToastEventManager } from "../../../utils/toast";
 
 interface Messages {
   id: number;
@@ -9,20 +10,15 @@ interface Messages {
 }
 
 interface AddToastEvent extends Event {
-  detail: {
-    type: "default" | "success" | "danger";
-    text: string;
-  };
+  type: "default" | "success" | "danger";
+  text: string;
 }
 
 const ToastContainer = () => {
   const [messages, setMessages] = useState<Messages[]>([]);
 
   useEffect(() => {
-    function handleAddToast(event: Event) {
-      const addToastEvent = event as AddToastEvent;
-      const { type, text } = addToastEvent.detail;
-
+    function handleAddToast({ type, text }: AddToastEvent) {
       setMessages((prevState) => [
         ...prevState,
         {
@@ -33,10 +29,10 @@ const ToastContainer = () => {
       ]);
     }
 
-    document.addEventListener("addtoast", handleAddToast);
+    ToastEventManager.on("addtoast", handleAddToast);
 
     return () => {
-      document.removeEventListener("addtoast", handleAddToast);
+      ToastEventManager.removeListener("addtoast", handleAddToast);
     };
   }, []);
 
