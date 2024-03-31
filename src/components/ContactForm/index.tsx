@@ -87,6 +87,10 @@ const ContactForm = ({ buttonLabel }: ContactFormProps) => {
     });
 
     setIsSubmitting(false);
+    setName("");
+    setEmail("");
+    setPhone("");
+    setCategory("");
   }
   return (
     <Form onSubmit={handleSubmit} noValidate>
