@@ -51,7 +51,8 @@ class HttpClient {
     } catch (error) {
       toast({
         text: error.response.data.error,
-        type: "danger"
+        type: "danger",
+        duration: 7000
       })
 
     }
