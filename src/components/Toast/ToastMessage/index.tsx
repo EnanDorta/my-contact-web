@@ -3,13 +3,24 @@ import CheckCircle from "../../../assets/icons/check-circle.svg";
 import Xcircle from "../../../assets/icons/x-circle.svg";
 
 interface ToastMessageProps {
-  text: string;
-  type?: "default" | "success" | "danger";
+  message: {
+    id: number;
+    text: string;
+    type: "default" | "success" | "danger";
+  };
+
+  onRemoveMessage: (id: number) => void;
 }
 
-const ToastMessage = ({ text, type = "default" }: ToastMessageProps) => {
+const ToastMessage = ({ message, onRemoveMessage }: ToastMessageProps) => {
+  const { id, text, type } = message;
+
+  function removeMessage() {
+    onRemoveMessage(id);
+  }
+
   return (
-    <Container type={type}>
+    <Container type={type} onClick={removeMessage} tabIndex={0} role="button">
       {type === "success" && <img src={CheckCircle} alt="CheckX" />}
 
       {type === "danger" && <img src={Xcircle} alt="x" />}
